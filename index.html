@@ -1011,6 +1011,274 @@
   </script>
 </section>
 
+    <section data-tela="pagamento-e-nf-e" class="hidden">
+  <style>
+    .pnf-card{background:#fff;border:1px solid #E2E8F0;border-radius:16px}
+    .pnf-opt{border:1.5px solid #E2E8F0;border-radius:14px;padding:12px;display:flex;gap:12px;align-items:center;cursor:pointer;background:#fff;transition:.15s}
+    .pnf-opt.sel{border-color:#2563EB;background:#EFF5FF;box-shadow:0 0 0 3px rgba(37,99,235,.12)}
+    .pnf-lbl{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#64748B;font-weight:700}
+    .pnf-inp{width:100%;border:1px solid #CBD5E1;border-radius:10px;padding:10px 12px;font-size:14px;color:#1E3A5F;background:#F8FAFC}
+    .pnf-inp:focus{outline:none;border-color:#2563EB;background:#fff}
+  </style>
+
+  <div class="px-4 pt-4 pb-28" style="background:#F8FAFC">
+
+    <div class="flex items-center gap-2 mb-4">
+      <button onclick="mostrarTela('carrinho-e-orcamento')" class="w-9 h-9 rounded-full bg-white border border-slate-200 flex items-center justify-center text-[#1E3A5F] font-bold">←</button>
+      <div>
+        <p class="pnf-lbl">Etapa 3 de 3</p>
+        <h2 class="text-[#1E3A5F] text-lg font-extrabold leading-tight">Pagamento e NF-e</h2>
+      </div>
+    </div>
+
+    <div id="pnf-checkout">
+
+      <div class="pnf-card p-4 mb-3">
+        <div class="flex items-start justify-between mb-2">
+          <p class="pnf-lbl">Entrega</p>
+          <button onclick="pagamento_e_nf_e_trocarEndereco()" class="text-[#2563EB] text-xs font-bold">Trocar</button>
+        </div>
+        <p id="pnf-cliente" class="text-[#1E3A5F] font-bold text-sm">Borracharia Pneu Forte LTDA</p>
+        <p class="text-xs text-slate-500 mt-0.5">CNPJ 18.442.907/0001-63 · IE 110.482.339</p>
+        <p id="pnf-endereco" class="text-sm text-slate-600 mt-2 leading-snug">Av. Brasil, 4.820 — Galpão 3<br>Jardim Industrial · Contagem/MG · 32040-190</p>
+        <div class="mt-3 flex items-center gap-2 text-xs">
+          <span class="px-2 py-1 rounded-full font-bold" style="background:#1E3A5F;color:#fff">Transportadora Rodoeste</span>
+          <span class="text-slate-500">Entrega até 14/06 (sex)</span>
+        </div>
+      </div>
+
+      <div class="pnf-card p-4 mb-3">
+        <div class="flex items-center justify-between mb-3">
+          <p class="pnf-lbl">Itens do pedido (4)</p>
+          <button onclick="mostrarTela('carrinho-e-orcamento')" class="text-[#2563EB] text-xs font-bold">Editar</button>
+        </div>
+        <div class="space-y-2 text-sm">
+          <div class="flex justify-between"><span class="text-slate-700">8× Pneu 275/80 R22.5 Borrachudo</span><span class="font-bold text-[#1E3A5F]">R$ 14.320,00</span></div>
+          <div class="flex justify-between"><span class="text-slate-700">4× Banda de rodagem BR-500 Recap</span><span class="font-bold text-[#1E3A5F]">R$ 1.876,00</span></div>
+          <div class="flex justify-between"><span class="text-slate-700">2× Câmara de ar 1000-20 Sky</span><span class="font-bold text-[#1E3A5F]">R$ 318,00</span></div>
+          <div class="flex justify-between"><span class="text-slate-700">1× Cola vulcanizante 1kg</span><span class="font-bold text-[#1E3A5F]">R$ 96,00</span></div>
+        </div>
+        <div class="border-t border-dashed border-slate-200 mt-3 pt-3 space-y-1 text-sm">
+          <div class="flex justify-between text-slate-600"><span>Subtotal</span><span>R$ 16.610,00</span></div>
+          <div class="flex justify-between text-slate-600"><span>Frete CIF</span><span>R$ 480,00</span></div>
+          <div class="flex justify-between text-slate-600"><span>Desconto tabela revenda</span><span class="text-emerald-600">− R$ 830,50</span></div>
+          <div id="pnf-linha-juros" class="flex justify-between text-slate-600 hidden"><span id="pnf-juros-txt">Acréscimo</span><span id="pnf-juros-val">R$ 0,00</span></div>
+          <div class="flex justify-between pt-2 border-t border-slate-100 mt-1">
+            <span class="font-extrabold text-[#1E3A5F]">Total</span>
+            <span id="pnf-total" class="font-extrabold text-[#2563EB] text-lg">R$ 16.259,50</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="pnf-card p-4 mb-3">
+        <p class="pnf-lbl mb-3">Forma de pagamento</p>
+        <div class="space-y-2">
+          <div class="pnf-opt sel" id="pnf-op-pix" onclick="pagamento_e_nf_e_pagar('pix')">
+            <span class="text-xl">⚡</span>
+            <div class="flex-1">
+              <p class="text-sm font-bold text-[#1E3A5F]">Pix à vista</p>
+              <p class="text-xs text-emerald-600 font-semibold">3% de desconto · confirma na hora</p>
+            </div>
+            <span class="text-sm font-bold text-[#1E3A5F]">R$ 15.771,72</span>
+          </div>
+          <div class="pnf-opt" id="pnf-op-cartao" onclick="pagamento_e_nf_e_pagar('cartao')">
+            <span class="text-xl">💳</span>
+            <div class="flex-1">
+              <p class="text-sm font-bold text-[#1E3A5F]">Cartão de crédito</p>
+              <p class="text-xs text-slate-500">Até 6× com juros de 1,99% a.m.</p>
+            </div>
+            <span class="text-sm font-bold text-[#1E3A5F]">6× 2.762</span>
+          </div>
+          <div class="pnf-opt" id="pnf-op-boleto" onclick="pagamento_e_nf_e_pagar('boleto')">
+            <span class="text-xl">🧾</span>
+            <div class="flex-1">
+              <p class="text-sm font-bold text-[#1E3A5F]">Boleto bancário</p>
+              <p class="text-xs text-slate-500">Vencimento em 3 dias úteis</p>
+            </div>
+            <span class="text-sm font-bold text-[#1E3A5F]">R$ 16.259,50</span>
+          </div>
+          <div class="pnf-opt" id="pnf-op-faturado" onclick="pagamento_e_nf_e_pagar('faturado')">
+            <span class="text-xl">📆</span>
+            <div class="flex-1">
+              <p class="text-sm font-bold text-[#1E3A5F]">Faturado 28/42/56</p>
+              <p class="text-xs text-slate-500">Limite aprovado: R$ 45.000,00</p>
+            </div>
+            <span class="text-sm font-bold text-[#1E3A5F]">3× 5.419</span>
+          </div>
+        </div>
+
+        <div id="pnf-form-cartao" class="hidden mt-3 space-y-2">
+          <input class="pnf-inp" placeholder="Número do cartão" inputmode="numeric" oninput="pagamento_e_nf_e_mascaraCartao(this)">
+          <div class="flex gap-2">
+            <input class="pnf-inp" placeholder="Validade 00/00">
+            <input class="pnf-inp" placeholder="CVV" inputmode="numeric">
+          </div>
+          <input class="pnf-inp" placeholder="Nome impresso no cartão" oninput="this.value=this.value.toUpperCase()">
+          <select class="pnf-inp" id="pnf-parcelas" onchange="pagamento_e_nf_e_parcelas()">
+            <option value="1">1× de R$ 16.259,50 sem juros</option>
+            <option value="3">3× de R$ 5.582,36 com juros</option>
+            <option value="6" selected>6× de R$ 2.762,05 com juros</option>
+          </select>
+        </div>
+
+        <div id="pnf-form-faturado" class="hidden mt-3 rounded-xl p-3" style="background:#EFF5FF">
+          <p class="text-xs text-[#1E3A5F] font-bold mb-1">Parcelas geradas no ERP</p>
+          <p class="text-xs text-slate-600">28 dias — R$ 5.419,84 (venc. 09/07)<br>42 dias — R$ 5.419,83 (venc. 23/07)<br>56 dias — R$ 5.419,83 (venc. 06/08)</p>
+        </div>
+      </div>
+
+      <div class="pnf-card p-4 mb-3">
+        <p class="pnf-lbl mb-3">Dados fiscais</p>
+        <div class="space-y-2">
+          <select class="pnf-inp" id="pnf-natureza">
+            <option>Venda de mercadoria — CFOP 6.102</option>
+            <option>Venda com ST — CFOP 6.404</option>
+            <option>Remessa p/ conserto (recape) — CFOP 6.915</option>
+          </select>
+          <input class="pnf-inp" id="pnf-pedidocompra" placeholder="Nº do pedido de compra do cliente">
+          <label class="flex items-center gap-2 text-sm text-slate-600 pt-1">
+            <input type="checkbox" id="pnf-wpp" checked class="w-4 h-4 accent-[#2563EB]">
+            Enviar NF-e e rastreio por WhatsApp
+          </label>
+        </div>
+      </div>
+
+      <button onclick="pagamento_e_nf_e_confirmar()" class="w-full py-4 rounded-2xl text-white font-extrabold text-base shadow-lg" style="background:#2563EB">
+        Confirmar pedido · <span id="pnf-btn-total">R$ 15.771,72</span>
+      </button>
+      <p class="text-center text-[11px] text-slate-400 mt-2">Ao confirmar, os dados vão para o ERP SkyTech para emissão da NF-e.</p>
+    </div>
+
+    <div id="pnf-processando" class="hidden pt-10 text-center">
+      <div class="w-16 h-16 mx-auto rounded-full border-4 border-slate-200 border-t-[#2563EB] animate-spin"></div>
+      <p class="mt-5 font-bold text-[#1E3A5F]">Integrando com o ERP…</p>
+      <p id="pnf-passo" class="text-sm text-slate-500 mt-1">Validando cadastro fiscal do cliente</p>
+    </div>
+
+    <div id="pnf-sucesso" class="hidden">
+      <div class="rounded-2xl p-5 text-center text-white mb-3" style="background:#1E3A5F">
+        <div class="w-14 h-14 rounded-full bg-white/15 mx-auto flex items-center justify-center text-3xl">✓</div>
+        <p class="mt-3 font-extrabold text-lg">Pedido #SK-2418 confirmado</p>
+        <p class="text-sm text-white/70 mt-1">Borracharia Pneu Forte LTDA</p>
+        <p id="pnf-resumo-pgto" class="text-sm text-white/90 mt-2 font-semibold">Pix à vista · R$ 15.771,72</p>
+      </div>
+
+      <div class="pnf-card p-4 mb-3">
+        <p class="pnf-lbl mb-3">Status</p>
+        <div class="space-y-3 text-sm">
+          <div class="flex gap-3"><span class="text-emerald-500">●</span><div><p class="font-bold text-[#1E3A5F]">Pagamento aprovado</p><p class="text-xs text-slate-500">12/06 · 09:42</p></div></div>
+          <div class="flex gap-3"><span class="text-emerald-500">●</span><div><p class="font-bold text-[#1E3A5F]">Pedido lançado no ERP (nº 90.418)</p><p class="text-xs text-slate-500">12/06 · 09:42</p></div></div>
+          <div class="flex gap-3"><span class="text-emerald-500">●</span><div><p class="font-bold text-[#1E3A5F]">NF-e 018.442 autorizada pela SEFAZ-MG</p><p class="text-xs text-slate-500">Chave 3124 0618 4429 0700 0163 55…</p></div></div>
+          <div class="flex gap-3"><span class="text-slate-300">●</span><div><p class="font-bold text-slate-400">Separação no CD Contagem</p><p class="text-xs text-slate-400">Previsto 12/06 · 16:00</p></div></div>
+        </div>
+      </div>
+
+      <div class="pnf-card p-4 mb-3">
+        <div class="flex items-center gap-3">
+          <div class="w-11 h-11 rounded-xl flex items-center justify-center text-xl" style="background:#EFF5FF">📄</div>
+          <div class="flex-1">
+            <p class="font-bold text-[#1E3A5F] text-sm">NF-e 018.442 — Série 1</p>
+            <p class="text-xs text-slate-500">DANFE + XML disponíveis</p>
+          </div>
+        </div>
+        <div class="flex gap-2 mt-3">
+          <button onclick="pagamento_e_nf_e_verNfe()" class="flex-1 py-2.5 rounded-xl text-white text-sm font-bold" style="background:#1E3A5F">Ver NF-e</button>
+          <button onclick="pagamento_e_nf_e_whats()" class="flex-1 py-2.5 rounded-xl text-sm font-bold border-2 border-emerald-500 text-emerald-600">Enviar WhatsApp</button>
+        </div>
+        <p id="pnf-feedback" class="hidden text-xs mt-3 rounded-lg p-2 bg-emerald-50 text-emerald-700 font-semibold"></p>
+      </div>
+
+      <div id="pnf-danfe" class="hidden pnf-card p-4 mb-3">
+        <p class="pnf-lbl mb-2">Prévia do DANFE</p>
+        <div class="text-[11px] text-slate-600 leading-relaxed border border-dashed border-slate-300 rounded-xl p-3">
+          <p class="font-bold text-[#1E3A5F] text-xs">SKYTECH PNEUS E REFORMADORA LTDA</p>
+          <p>CNPJ 27.905.114/0001-08 · Contagem/MG</p>
+          <p class="mt-2">Destinatário: Borracharia Pneu Forte LTDA</p>
+          <p>Natureza: <span id="pnf-danfe-nat">Venda de mercadoria — CFOP 6.102</span></p>
+          <p class="mt-2">Base ICMS R$ 16.259,50 · ICMS R$ 1.951,14</p>
+          <p>IPI R$ 0,00 · Total NF-e <span class="font-bold">R$ 16.259,50</span></p>
+          <p class="mt-2">Transporte: Rodoeste · 12 volumes · 486 kg</p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 gap-2">
+        <button onclick="mostrarTela('pedidos-e-clientes')" class="py-3.5 rounded-2xl text-white font-bold text-sm" style="background:#2563EB">Acompanhar pedido</button>
+        <button onclick="mostrarTela('catalogo-de-pneus')" class="py-3.5 rounded-2xl font-bold text-sm border border-slate-300 text-[#1E3A5F] bg-white">Novo pedido</button>
+      </div>
+      <button onclick="mostrarTela('home-da-loja')" class="w-full mt-2 py-3 text-sm font-bold text-slate-500">Voltar ao início</button>
+    </div>
+  </div>
+
+  <script>
+    var pnf_forma='pix';
+    var pnf_valores={pix:['R$ 15.771,72','Pix à vista'],cartao:['R$ 16.572,30','Cartão 6× de R$ 2.762,05'],boleto:['R$ 16.259,50','Boleto bancário'],faturado:['R$ 16.259,50','Faturado 28/42/56 dias']};
+    function pagamento_e_nf_e_pagar(f){
+      pnf_forma=f;
+      ['pix','cartao','boleto','faturado'].forEach(function(k){
+        document.getElementById('pnf-op-'+k).classList.toggle('sel',k===f);
+      });
+      document.getElementById('pnf-form-cartao').classList.toggle('hidden',f!=='cartao');
+      document.getElementById('pnf-form-faturado').classList.toggle('hidden',f!=='faturado');
+      var lj=document.getElementById('pnf-linha-juros');
+      if(f==='cartao'){lj.classList.remove('hidden');document.getElementById('pnf-juros-txt').textContent='Juros do parcelamento';document.getElementById('pnf-juros-val').textContent='+ R$ 312,80';}
+      else if(f==='pix'){lj.classList.remove('hidden');document.getElementById('pnf-juros-txt').textContent='Desconto Pix (3%)';document.getElementById('pnf-juros-val').textContent='− R$ 487,78';}
+      else lj.classList.add('hidden');
+      document.getElementById('pnf-total').textContent=pnf_valores[f][0];
+      document.getElementById('pnf-btn-total').textContent=pnf_valores[f][0];
+    }
+    function pagamento_e_nf_e_parcelas(){
+      var v=document.getElementById('pnf-parcelas').value;
+      var m={'1':['R$ 16.259,50','+ R$ 0,00','Cartão à vista'],'3':['R$ 16.747,08','+ R$ 487,58','Cartão 3× de R$ 5.582,36'],'6':['R$ 16.572,30','+ R$ 312,80','Cartão 6× de R$ 2.762,05']};
+      pnf_valores.cartao=[m[v][0],m[v][2]];
+      document.getElementById('pnf-total').textContent=m[v][0];
+      document.getElementById('pnf-btn-total').textContent=m[v][0];
+      document.getElementById('pnf-juros-val').textContent=m[v][1];
+    }
+    function pagamento_e_nf_e_mascaraCartao(el){
+      var v=el.value.replace(/\D/g,'').slice(0,16).replace(/(\d{4})(?=\d)/g,'$1 ');
+      el.value=v;
+    }
+    function pagamento_e_nf_e_trocarEndereco(){
+      var e=document.getElementById('pnf-endereco');
+      if(e.dataset.alt==='1'){
+        e.innerHTML='Av. Brasil, 4.820 — Galpão 3<br>Jardim Industrial · Contagem/MG · 32040-190';
+        e.dataset.alt='0';
+      }else{
+        e.innerHTML='Rod. BR-116, km 218 — Filial Pneu Forte<br>Distrito Industrial · Feira de Santana/BA · 44052-330';
+        e.dataset.alt='1';
+      }
+    }
+    function pagamento_e_nf_e_confirmar(){
+      document.getElementById('pnf-checkout').classList.add('hidden');
+      document.getElementById('pnf-processando').classList.remove('hidden');
+      var passos=['Validando cadastro fiscal do cliente','Reservando estoque no CD Contagem','Gerando pedido no ERP SkyTech','Transmitindo NF-e para a SEFAZ-MG'];
+      var i=0;
+      var t=setInterval(function(){
+        i++;
+        if(i<passos.length){document.getElementById('pnf-passo').textContent=passos[i];}
+        else{
+          clearInterval(t);
+          document.getElementById('pnf-processando').classList.add('hidden');
+          document.getElementById('pnf-sucesso').classList.remove('hidden');
+          document.getElementById('pnf-resumo-pgto').textContent=pnf_valores[pnf_forma][1]+' · '+pnf_valores[pnf_forma][0];
+          document.getElementById('pnf-danfe-nat').textContent=document.getElementById('pnf-natureza').value;
+          window.scrollTo(0,0);
+        }
+      },900);
+    }
+    function pagamento_e_nf_e_verNfe(){
+      var d=document.getElementById('pnf-danfe');
+      d.classList.toggle('hidden');
+      if(!d.classList.contains('hidden'))d.scrollIntoView({behavior:'smooth',block:'center'});
+    }
+    function pagamento_e_nf_e_whats(){
+      var f=document.getElementById('pnf-feedback');
+      f.classList.remove('hidden');
+      f.textContent='✓ DANFE e rastreio enviados para (31) 99614-2280 — Marcos Ferreira (compras).';
+    }
+  </script>
+</section>
+
     <!-- TELAS -->
   </main>
 
