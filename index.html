@@ -58,6 +58,258 @@
 <div id="aparelho" class="w-full bg-gelo min-h-screen shadow-2xl relative overflow-hidden">
 
   <main class="pb-24">
+    <section data-tela="home-da-loja" class="hidden">
+  <style>
+    .sk-card{background:#fff;border:1px solid #E2E8F0;border-radius:16px}
+    .sk-chip{border:1px solid #CBD5E1;background:#fff;color:#1E3A5F;border-radius:999px;font-size:12px;padding:6px 12px;white-space:nowrap}
+    .sk-chip-on{background:#1E3A5F;border-color:#1E3A5F;color:#F8FAFC}
+    .sk-tag{font-size:10px;letter-spacing:.06em;text-transform:uppercase;font-weight:700}
+    .sk-scroll{overflow-x:auto;scrollbar-width:none}
+    .sk-scroll::-webkit-scrollbar{display:none}
+  </style>
+
+  <div class="bg-[#F8FAFC] pb-6">
+
+    <div class="px-4 pt-4 flex items-center justify-between">
+      <div>
+        <p class="text-[11px] uppercase tracking-widest text-[#2563EB] font-bold">Representante interno</p>
+        <p class="text-[15px] font-bold text-[#1E3A5F] leading-tight">Olá, Rogério Baltazar</p>
+        <p class="text-[11px] text-slate-500">Regional Centro-Oeste · Meta 62%</p>
+      </div>
+      <div class="flex items-center gap-2">
+        <button onclick="home_da_loja_abrirAvisos()" class="relative w-10 h-10 rounded-xl border border-[#CBD5E1] bg-white grid place-items-center">
+          <span class="text-lg">🔔</span>
+          <span id="home_da_loja_badgeNotif" class="absolute -top-1 -right-1 bg-[#2563EB] text-white text-[10px] w-5 h-5 rounded-full grid place-items-center font-bold">3</span>
+        </button>
+        <button onclick="mostrarTela('carrinho-e-orcamento')" class="relative w-10 h-10 rounded-xl bg-[#1E3A5F] grid place-items-center">
+          <span class="text-lg">🛒</span>
+          <span id="home_da_loja_badgeCart" class="absolute -top-1 -right-1 bg-[#2563EB] text-white text-[10px] w-5 h-5 rounded-full grid place-items-center font-bold">2</span>
+        </button>
+      </div>
+    </div>
+
+    <div id="home_da_loja_avisos" class="hidden mx-4 mt-3 sk-card p-3">
+      <div class="flex items-center justify-between mb-2">
+        <p class="text-[12px] font-bold text-[#1E3A5F]">Notificações</p>
+        <button onclick="home_da_loja_abrirAvisos()" class="text-[11px] text-slate-400">fechar</button>
+      </div>
+      <button onclick="mostrarTela('pagamento-e-nf-e')" class="w-full text-left border-b border-slate-100 pb-2 mb-2">
+        <p class="text-[12px] font-semibold text-[#1E3A5F]">NF-e 018.442 autorizada</p>
+        <p class="text-[11px] text-slate-500">Pneus Rodonorte – Rondonópolis/MT · há 12 min</p>
+      </button>
+      <button onclick="mostrarTela('pedidos-e-clientes')" class="w-full text-left border-b border-slate-100 pb-2 mb-2">
+        <p class="text-[12px] font-semibold text-[#1E3A5F]">Pedido #4712 aguardando aprovação</p>
+        <p class="text-[11px] text-slate-500">Borracharia Central – Goiânia/GO · há 1 h</p>
+      </button>
+      <button onclick="mostrarTela('catalogo-de-pneus')" class="w-full text-left">
+        <p class="text-[12px] font-semibold text-[#1E3A5F]">Banda 295/80 voltou ao estoque</p>
+        <p class="text-[11px] text-slate-500">CD Aparecida de Goiânia · há 3 h</p>
+      </button>
+    </div>
+
+    <div class="px-4 mt-3">
+      <div class="flex gap-2">
+        <div class="flex-1 flex items-center gap-2 bg-white border border-[#CBD5E1] rounded-xl px-3 h-11">
+          <span class="text-slate-400 text-sm">🔎</span>
+          <input id="home_da_loja_busca" oninput="home_da_loja_buscar()" type="text" placeholder="Buscar pneu, banda, medida..." class="w-full text-[13px] text-[#1E3A5F] outline-none placeholder:text-slate-400">
+        </div>
+        <button onclick="mostrarTela('catalogo-de-pneus')" class="w-11 h-11 rounded-xl bg-[#2563EB] text-white grid place-items-center text-sm font-bold">⚙︎</button>
+      </div>
+      <div id="home_da_loja_sugestoes" class="hidden mt-2 sk-card overflow-hidden"></div>
+    </div>
+
+    <div class="px-4 mt-4">
+      <div class="rounded-2xl p-4 text-[#F8FAFC]" style="background:linear-gradient(135deg,#1E3A5F 0%,#2563EB 100%)">
+        <p class="sk-tag text-[#93C5FD]">Campanha reforma out/nov</p>
+        <p class="text-[19px] font-black leading-tight mt-1" id="home_da_loja_bannerTitulo">Recapagem a frio 295/80R22.5</p>
+        <p class="text-[12px] text-blue-100 mt-1" id="home_da_loja_bannerTexto">12% off no lote a partir de 20 carcaças · frete CIF para todo o Brasil</p>
+        <div class="flex items-center gap-2 mt-3">
+          <button onclick="mostrarTela('catalogo-de-pneus')" class="bg-[#F8FAFC] text-[#1E3A5F] text-[12px] font-bold px-4 h-9 rounded-lg">Ver condições</button>
+          <button onclick="home_da_loja_girarBanner()" class="border border-white/40 text-[12px] px-3 h-9 rounded-lg">Próxima →</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="px-4 mt-4">
+      <div class="flex items-center justify-between mb-2">
+        <p class="text-[13px] font-bold text-[#1E3A5F]">Categorias</p>
+        <button onclick="mostrarTela('catalogo-de-pneus')" class="text-[11px] font-bold text-[#2563EB]">Catálogo completo</button>
+      </div>
+      <div class="grid grid-cols-4 gap-2">
+        <button onclick="home_da_loja_filtrar('novos')" class="sk-card py-3 flex flex-col items-center gap-1">
+          <span class="text-xl">🛞</span><span class="text-[10px] font-semibold text-[#1E3A5F] text-center leading-tight">Pneus<br>novos</span>
+        </button>
+        <button onclick="home_da_loja_filtrar('reformados')" class="sk-card py-3 flex flex-col items-center gap-1">
+          <span class="text-xl">♻️</span><span class="text-[10px] font-semibold text-[#1E3A5F] text-center leading-tight">Pneus<br>reformados</span>
+        </button>
+        <button onclick="home_da_loja_filtrar('servicos')" class="sk-card py-3 flex flex-col items-center gap-1">
+          <span class="text-xl">🔧</span><span class="text-[10px] font-semibold text-[#1E3A5F] text-center leading-tight">Serviços<br>borracharia</span>
+        </button>
+        <button onclick="home_da_loja_filtrar('acessorios')" class="sk-card py-3 flex flex-col items-center gap-1">
+          <span class="text-xl">🧰</span><span class="text-[10px] font-semibold text-[#1E3A5F] text-center leading-tight">Insumos e<br>acessórios</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="mt-5 px-4 flex items-center justify-between">
+      <p class="text-[13px] font-bold text-[#1E3A5F]">Destaques SkyTech</p>
+      <span id="home_da_loja_filtroLabel" class="text-[11px] text-slate-500">todos os itens</span>
+    </div>
+    <div class="sk-scroll px-4 mt-2 flex gap-2">
+      <button data-f="todos" onclick="home_da_loja_filtrar('todos')" class="sk-chip sk-chip-on">Todos</button>
+      <button data-f="novos" onclick="home_da_loja_filtrar('novos')" class="sk-chip">Novos</button>
+      <button data-f="reformados" onclick="home_da_loja_filtrar('reformados')" class="sk-chip">Reformados</button>
+      <button data-f="servicos" onclick="home_da_loja_filtrar('servicos')" class="sk-chip">Serviços</button>
+      <button data-f="acessorios" onclick="home_da_loja_filtrar('acessorios')" class="sk-chip">Acessórios</button>
+    </div>
+
+    <div id="home_da_loja_grade" class="px-4 mt-3 grid grid-cols-2 gap-3"></div>
+
+    <div class="px-4 mt-5">
+      <div class="sk-card p-3 flex items-center gap-3">
+        <div class="w-9 h-9 rounded-lg bg-[#DBEAFE] grid place-items-center text-[#1E3A5F] text-sm font-black">ERP</div>
+        <div class="flex-1">
+          <p class="text-[12px] font-bold text-[#1E3A5F]">Integração ERP ativa</p>
+          <p class="text-[11px] text-slate-500">Estoque e NF-e sincronizados às 09:41</p>
+        </div>
+        <button onclick="mostrarTela('pagamento-e-nf-e')" class="text-[11px] font-bold text-[#2563EB]">Ver NF-e</button>
+      </div>
+    </div>
+
+    <div class="px-4 mt-4 grid grid-cols-2 gap-3">
+      <button onclick="mostrarTela('pedidos-e-clientes')" class="sk-card p-3 text-left">
+        <p class="text-[11px] text-slate-500">Pedidos em aberto</p>
+        <p class="text-[20px] font-black text-[#1E3A5F]">14</p>
+        <p class="text-[11px] text-[#2563EB] font-bold mt-1">Abrir carteira →</p>
+      </button>
+      <button onclick="mostrarTela('carrinho-e-orcamento')" class="sk-card p-3 text-left">
+        <p class="text-[11px] text-slate-500">Orçamento atual</p>
+        <p id="home_da_loja_valorCart" class="text-[20px] font-black text-[#1E3A5F]">R$ 4.180</p>
+        <p class="text-[11px] text-[#2563EB] font-bold mt-1">Fechar pedido →</p>
+      </button>
+    </div>
+
+    <div class="px-4 mt-4">
+      <p class="text-[13px] font-bold text-[#1E3A5F] mb-2">Comprados de novo pelos seus clientes</p>
+      <div class="sk-card divide-y divide-slate-100">
+        <button onclick="home_da_loja_abrirProduto('Manchão radial MR-12')" class="w-full flex items-center gap-3 p-3 text-left">
+          <span class="text-lg">🩹</span>
+          <div class="flex-1"><p class="text-[12px] font-semibold text-[#1E3A5F]">Manchão radial MR-12 (cx 10)</p><p class="text-[11px] text-slate-500">Auto Center Vitória – Anápolis/GO</p></div>
+          <span class="text-[12px] font-bold text-[#1E3A5F]">R$ 289</span>
+        </button>
+        <button onclick="home_da_loja_abrirProduto('Cola vulcanizante 1L')" class="w-full flex items-center gap-3 p-3 text-left">
+          <span class="text-lg">🧴</span>
+          <div class="flex-1"><p class="text-[12px] font-semibold text-[#1E3A5F]">Cola vulcanizante a frio 1L</p><p class="text-[11px] text-slate-500">Borracharia do Zé – Cuiabá/MT</p></div>
+          <span class="text-[12px] font-bold text-[#1E3A5F]">R$ 96</span>
+        </button>
+        <button onclick="home_da_loja_abrirProduto('Válvula TR-573 metálica')" class="w-full flex items-center gap-3 p-3 text-left">
+          <span class="text-lg">🔩</span>
+          <div class="flex-1"><p class="text-[12px] font-semibold text-[#1E3A5F]">Válvula TR-573 metálica (pct 25)</p><p class="text-[11px] text-slate-500">Transportes Serra Azul – Uberaba/MG</p></div>
+          <span class="text-[12px] font-bold text-[#1E3A5F]">R$ 174</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div id="home_da_loja_toast" class="hidden fixed bottom-24 left-1/2 -translate-x-1/2 z-40 bg-[#1E3A5F] text-[#F8FAFC] text-[12px] px-4 py-2 rounded-full shadow-lg"></div>
+
+  <script>
+    var home_da_loja_produtos = [
+      {n:"Pneu 295/80R22.5 Borrachudo", c:"novos", p:2190, d:"Liso/tração · 16 lonas", i:"🛞", t:"Novo", e:"38 un · CD Goiânia"},
+      {n:"Reformado 275/80R22.5 Liso", c:"reformados", p:849, d:"Recapagem a frio · garantia 12m", i:"♻️", t:"Reformado", e:"52 un · CD Anápolis"},
+      {n:"Banda de rodagem BR-120 Misto", c:"reformados", p:412, d:"Rolo 8mm · aplicação frio", i:"📏", t:"Insumo", e:"14 rolos"},
+      {n:"Vulcanização a quente 22.5", c:"servicos", p:135, d:"Serviço · reparo de carcaça", i:"🔧", t:"Serviço", e:"Agenda 48h"},
+      {n:"Câmara de ar 1000-20 reforçada", c:"acessorios", p:158, d:"Butil · válvula TR-78A", i:"⭕", t:"Acessório", e:"120 un"},
+      {n:"Alinhamento e balanceamento frota", c:"servicos", p:220, d:"Por eixo · atendimento móvel", i:"🚛", t:"Serviço", e:"Todo o Brasil"}
+    ];
+    var home_da_loja_filtro = "todos";
+    var home_da_loja_itens = 2;
+    var home_da_loja_total = 4180;
+
+    function home_da_loja_moeda(v){ return "R$ " + v.toLocaleString("pt-BR",{minimumFractionDigits:2}); }
+
+    function home_da_loja_render(){
+      var g = document.getElementById("home_da_loja_grade");
+      var lista = home_da_loja_produtos.filter(function(p){ return home_da_loja_filtro==="todos" || p.c===home_da_loja_filtro; });
+      g.innerHTML = lista.map(function(p){
+        return '<div class="sk-card overflow-hidden">' +
+          '<button onclick="home_da_loja_abrirProduto(\''+p.n+'\')" class="w-full text-left">' +
+          '<div class="h-20 bg-[#EFF6FF] grid place-items-center text-3xl">'+p.i+'</div>' +
+          '<div class="p-2.5"><span class="sk-tag text-[#2563EB]">'+p.t+'</span>' +
+          '<p class="text-[12px] font-bold text-[#1E3A5F] leading-tight mt-1">'+p.n+'</p>' +
+          '<p class="text-[10px] text-slate-500 mt-0.5">'+p.d+'</p>' +
+          '<p class="text-[10px] text-slate-400 mt-1">'+p.e+'</p>' +
+          '<p class="text-[15px] font-black text-[#1E3A5F] mt-1">'+home_da_loja_moeda(p.p)+'</p></div></button>' +
+          '<div class="px-2.5 pb-2.5"><button onclick="home_da_loja_addCarrinho('+p.p+',\''+p.n+'\')" class="w-full h-8 rounded-lg bg-[#2563EB] text-white text-[11px] font-bold">+ Adicionar ao pedido</button></div>' +
+        '</div>';
+      }).join("");
+      if(!lista.length){ g.innerHTML = '<p class="col-span-2 text-center text-[12px] text-slate-500 py-6">Nada nesta categoria. <button onclick="home_da_loja_filtrar(\'todos\')" class="text-[#2563EB] font-bold">Ver todos</button></p>'; }
+    }
+
+    function home_da_loja_filtrar(f){
+      home_da_loja_filtro = f;
+      document.querySelectorAll('[data-f]').forEach(function(b){
+        b.classList.toggle("sk-chip-on", b.getAttribute("data-f")===f);
+      });
+      var nomes = {todos:"todos os itens", novos:"pneus novos", reformados:"pneus reformados", servicos:"serviços de borracharia", acessorios:"insumos e acessórios"};
+      document.getElementById("home_da_loja_filtroLabel").textContent = nomes[f];
+      home_da_loja_render();
+    }
+
+    function home_da_loja_addCarrinho(v, nome){
+      home_da_loja_itens++; home_da_loja_total += v;
+      document.getElementById("home_da_loja_badgeCart").textContent = home_da_loja_itens;
+      document.getElementById("home_da_loja_valorCart").textContent = "R$ " + Math.round(home_da_loja_total).toLocaleString("pt-BR");
+      home_da_loja_toast(nome + " adicionado ao orçamento");
+    }
+
+    function home_da_loja_toast(msg){
+      var t = document.getElementById("home_da_loja_toast");
+      t.textContent = msg; t.classList.remove("hidden");
+      clearTimeout(window.home_da_loja_tt);
+      window.home_da_loja_tt = setTimeout(function(){ t.classList.add("hidden"); }, 1800);
+    }
+
+    function home_da_loja_abrirProduto(nome){
+      home_da_loja_toast("Abrindo " + nome);
+      mostrarTela('detalhe-do-produto');
+    }
+
+    function home_da_loja_abrirAvisos(){
+      var a = document.getElementById("home_da_loja_avisos");
+      a.classList.toggle("hidden");
+      if(!a.classList.contains("hidden")){ document.getElementById("home_da_loja_badgeNotif").textContent = "0"; }
+    }
+
+    var home_da_loja_banners = [
+      {t:"Recapagem a frio 295/80R22.5", x:"12% off no lote a partir de 20 carcaças · frete CIF para todo o Brasil"},
+      {t:"Kit borracharia completo", x:"Macaco 20t + chave de impacto + manchões · 6x sem juros no cartão"},
+      {t:"Pneu novo linha pesada", x:"Entrega em 72h para SP, MG, GO e MT · NF-e emitida direto pelo ERP"}
+    ];
+    var home_da_loja_bi = 0;
+    function home_da_loja_girarBanner(){
+      home_da_loja_bi = (home_da_loja_bi + 1) % home_da_loja_banners.length;
+      document.getElementById("home_da_loja_bannerTitulo").textContent = home_da_loja_banners[home_da_loja_bi].t;
+      document.getElementById("home_da_loja_bannerTexto").textContent = home_da_loja_banners[home_da_loja_bi].x;
+    }
+
+    function home_da_loja_buscar(){
+      var q = document.getElementById("home_da_loja_busca").value.toLowerCase().trim();
+      var box = document.getElementById("home_da_loja_sugestoes");
+      if(q.length < 2){ box.classList.add("hidden"); box.innerHTML=""; return; }
+      var r = home_da_loja_produtos.filter(function(p){ return (p.n+p.d).toLowerCase().indexOf(q) > -1; }).slice(0,4);
+      box.classList.remove("hidden");
+      box.innerHTML = r.length ? r.map(function(p){
+        return '<button onclick="home_da_loja_abrirProduto(\''+p.n+'\')" class="w-full flex items-center gap-2 p-2.5 text-left border-b border-slate-100">' +
+          '<span>'+p.i+'</span><span class="flex-1 text-[12px] text-[#1E3A5F] font-semibold">'+p.n+'</span>' +
+          '<span class="text-[11px] text-slate-500">'+home_da_loja_moeda(p.p)+'</span></button>';
+      }).join("") : '<button onclick="mostrarTela(\'catalogo-de-pneus\')" class="w-full p-3 text-[12px] text-[#2563EB] font-bold">Nada aqui — buscar no catálogo completo →</button>';
+    }
+
+    home_da_loja_render();
+  </script>
+</section>
+
     <!-- TELAS -->
   </main>
 
