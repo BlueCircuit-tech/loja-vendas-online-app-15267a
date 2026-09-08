@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SkyTech Pneus — App de Vendas</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          marinho: '#1E3A5F',
+          'marinho-900': '#132741',
+          'marinho-700': '#24466f',
+          azul: '#2563EB',
+          'azul-700': '#1d4ed8',
+          'azul-100': '#dbe6fd',
+          gelo: '#F8FAFC',
+          'gelo-200': '#e6edf5',
+          'gelo-400': '#b6c4d4'
+        },
+        fontFamily: {
+          sans: ['Barlow', 'sans-serif'],
+          display: ['Barlow Condensed', 'sans-serif']
+        }
+      }
+    }
+  }
+</script>
+<style>
+  html, body { background: #0d1b2a; }
+  body { font-family: 'Barlow', sans-serif; }
+  ::-webkit-scrollbar { width: 0; height: 0; }
+  #aparelho { max-width: 430px; }
+  .nav-btn { color: #7f93ab; transition: all .18s ease; }
+  .nav-btn .nav-ico {
+    width: 38px; height: 30px; display:flex; align-items:center; justify-content:center;
+    border-radius: 10px; transition: all .18s ease;
+  }
+  .nav-btn.ativo { color: #2563EB; }
+  .nav-btn.ativo .nav-ico { background:#dbe6fd; transform: translateY(-2px); }
+  .nav-btn.ativo .nav-lbl { font-weight: 700; }
+  .nav-btn.ativo::before {
+    content:''; position:absolute; top:0; left:50%; transform:translateX(-50%);
+    width: 30px; height: 3px; border-radius: 0 0 4px 4px; background:#2563EB;
+  }
+  .tarja-piso {
+    background-image: repeating-linear-gradient(135deg, #1E3A5F 0 10px, #24466f 10px 20px);
+  }
+</style>
+</head>
+<body class="min-h-screen flex justify-center">
+
+<div id="aparelho" class="w-full bg-gelo min-h-screen shadow-2xl relative overflow-hidden">
+
+  <main class="pb-24">
+    <!-- TELAS -->
+  </main>
+
+  <nav class="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[430px] bg-white border-t border-gelo-200 z-40"
+       style="box-shadow:0 -6px 22px rgba(30,58,95,.12)">
+    <div class="grid grid-cols-6">
+
+      <button data-nav="home-da-loja" onclick="mostrarTela('home-da-loja')"
+        class="nav-btn relative flex flex-col items-center gap-0.5 py-2">
+        <span class="nav-ico">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-5 h-5"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.8V21h14V9.8"/><path d="M9.5 21v-6h5v6"/></svg>
+        </span>
+        <span class="nav-lbl text-[9px] font-display tracking-wide uppercase">Início</span>
+      </button>
+
+      <button data-nav="catalogo-de-pneus" onclick="mostrarTela('catalogo-de-pneus')"
+        class="nav-btn relative flex flex-col items-center gap-0.5 py-2">
+        <span class="nav-ico">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-5 h-5"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3.2"/><path d="M12 3v5.8M12 15.2V21M3 12h5.8M15.2 12H21"/></svg>
+        </span>
+        <span class="nav-lbl text-[9px] font-display tracking-wide uppercase">Pneus</span>
+      </button>
+
+      <button data-nav="detalhe-do-produto" onclick="mostrarTela('detalhe-do-produto')"
+        class="nav-btn relative flex flex-col items-center gap-0.5 py-2">
+        <span class="nav-ico">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-5 h-5"><path d="M4 7.5 12 3.5l8 4v9L12 20.5 4 16.5z"/><path d="M4 7.5 12 11.5l8-4M12 11.5v9"/></svg>
+        </span>
+        <span class="nav-lbl text-[9px] font-display tracking-wide uppercase">Produto</span>
+      </button>
+
+      <button data-nav="carrinho-e-orcamento" onclick="mostrarTela('carrinho-e-orcamento')"
+        class="nav-btn relative flex flex-col items-center gap-0.5 py-2">
+        <span class="nav-ico">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-5 h-5"><path d="M2.5 3.5h2.6l2.2 10.6h9.6l2.1-7.6H6.2"/><circle cx="9.5" cy="19" r="1.6"/><circle cx="17" cy="19" r="1.6"/></svg>
+        </span>
+        <span class="nav-lbl text-[9px] font-display tracking-wide uppercase">Carrinho</span>
+      </button>
+
+      <button data-nav="pagamento-e-nf-e" onclick="mostrarTela('pagamento-e-nf-e')"
+        class="nav-btn relative flex flex-col items-center gap-0.5 py-2">
+        <span class="nav-ico">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-5 h-5"><rect x="2.5" y="5.5" width="19" height="13" rx="2.2"/><path d="M2.5 10h19"/><path d="M6 14.5h4"/></svg>
+        </span>
+        <span class="nav-lbl text-[9px] font-display tracking-wide uppercase">NF-e</span>
+      </button>
+
+      <button data-nav="pedidos-e-clientes" onclick="mostrarTela('pedidos-e-clientes')"
+        class="nav-btn relative flex flex-col items-center gap-0.5 py-2">
+        <span class="nav-ico">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-5 h-5"><path d="M5.5 3.5h9L19 8v12.5H5.5z"/><path d="M14 3.5V8h5"/><path d="M8.5 12.5h7M8.5 16h5"/></svg>
+        </span>
+        <span class="nav-lbl text-[9px] font-display tracking-wide uppercase">Pedidos</span>
+      </button>
+
+    </div>
+    <div class="h-1.5 tarja-piso"></div>
+  </nav>
+
+</div>
+
+<script>
+  function mostrarTela(id) {
+    document.querySelectorAll('[data-tela]').forEach(function (s) {
+      s.classList.toggle('hidden', s.dataset.tela !== id);
+    });
+    document.querySelectorAll('[data-nav]').forEach(function (b) {
+      b.classList.toggle('ativo', b.dataset.nav === id);
+    });
+    window.scrollTo({ top: 0 });
+  }
+  document.addEventListener('DOMContentLoaded', function () {
+    mostrarTela('home-da-loja');
+  });
+</script>
+</body>
+</html>
