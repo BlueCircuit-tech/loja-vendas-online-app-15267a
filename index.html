@@ -310,6 +310,200 @@
   </script>
 </section>
 
+    <section data-tela="catalogo-de-pneus" class="hidden">
+  <style>
+    .cat-chip{border:1px solid #cbd5e1;color:#1E3A5F;background:#fff;border-radius:9999px;padding:.35rem .75rem;font-size:.75rem;font-weight:600;white-space:nowrap}
+    .cat-chip-on{background:#1E3A5F;border-color:#1E3A5F;color:#fff}
+    .cat-card{background:#fff;border:1px solid #e2e8f0;border-radius:.9rem;padding:.7rem;display:flex;gap:.7rem;text-align:left;width:100%}
+    .cat-tag{font-size:.625rem;font-weight:700;letter-spacing:.03em;padding:.15rem .4rem;border-radius:.3rem}
+    .cat-sc{scrollbar-width:none}
+    .cat-sc::-webkit-scrollbar{display:none}
+  </style>
+
+  <div class="bg-[#F8FAFC] min-h-screen pb-28">
+
+    <div class="bg-[#1E3A5F] px-4 pt-4 pb-5">
+      <div class="flex items-center gap-2">
+        <div class="flex-1 flex items-center gap-2 bg-white/95 rounded-xl px-3 py-2.5">
+          <span class="text-[#2563EB] text-sm">🔎</span>
+          <input id="catBusca" oninput="catalogo_de_pneus_buscar()" placeholder="Medida, marca ou código (ex: 275/80R22.5)"
+                 class="flex-1 bg-transparent text-[13px] text-[#1E3A5F] placeholder-slate-400 outline-none">
+        </div>
+        <button onclick="catalogo_de_pneus_toggleFiltros()" class="w-11 h-11 rounded-xl bg-[#2563EB] text-white text-lg font-bold shrink-0">⚙</button>
+      </div>
+      <div class="flex gap-2 mt-3 overflow-x-auto cat-sc">
+        <button onclick="catalogo_de_pneus_tipo(this,'todos')" class="cat-chip cat-chip-on">Todos os itens</button>
+        <button onclick="catalogo_de_pneus_tipo(this,'novo')" class="cat-chip">Pneu novo</button>
+        <button onclick="catalogo_de_pneus_tipo(this,'reformado')" class="cat-chip">Reformado</button>
+        <button onclick="catalogo_de_pneus_tipo(this,'servico')" class="cat-chip">Serviços</button>
+        <button onclick="catalogo_de_pneus_tipo(this,'insumo')" class="cat-chip">Insumos</button>
+      </div>
+    </div>
+
+    <div id="catFiltros" class="hidden bg-white border-b border-slate-200 px-4 py-4 space-y-4">
+      <div>
+        <p class="text-[11px] font-bold text-[#1E3A5F] uppercase tracking-wide mb-2">Aro</p>
+        <div class="flex flex-wrap gap-2">
+          <button onclick="catalogo_de_pneus_um(this,'aro')" class="cat-chip">Aro 20</button>
+          <button onclick="catalogo_de_pneus_um(this,'aro')" class="cat-chip">Aro 22.5</button>
+          <button onclick="catalogo_de_pneus_um(this,'aro')" class="cat-chip">Aro 24</button>
+          <button onclick="catalogo_de_pneus_um(this,'aro')" class="cat-chip">Aro 17</button>
+        </div>
+      </div>
+      <div>
+        <p class="text-[11px] font-bold text-[#1E3A5F] uppercase tracking-wide mb-2">Marca</p>
+        <div class="flex flex-wrap gap-2">
+          <button onclick="catalogo_de_pneus_um(this,'marca')" class="cat-chip">Skytech</button>
+          <button onclick="catalogo_de_pneus_um(this,'marca')" class="cat-chip">Pirelli</button>
+          <button onclick="catalogo_de_pneus_um(this,'marca')" class="cat-chip">Goodyear</button>
+          <button onclick="catalogo_de_pneus_um(this,'marca')" class="cat-chip">Michelin</button>
+        </div>
+      </div>
+      <div>
+        <p class="text-[11px] font-bold text-[#1E3A5F] uppercase tracking-wide mb-2">Faixa de preço até <span id="catPrecoVal" class="text-[#2563EB]">R$ 2.500</span></p>
+        <input type="range" min="200" max="2500" step="50" value="2500" oninput="catalogo_de_pneus_preco(this.value)" class="w-full accent-[#2563EB]">
+      </div>
+      <div class="flex gap-2 pt-1">
+        <button onclick="catalogo_de_pneus_limpar()" class="flex-1 py-2.5 rounded-xl border border-slate-300 text-[#1E3A5F] text-[13px] font-bold">Limpar</button>
+        <button onclick="catalogo_de_pneus_aplicar()" class="flex-1 py-2.5 rounded-xl bg-[#2563EB] text-white text-[13px] font-bold">Aplicar filtros</button>
+      </div>
+    </div>
+
+    <div class="px-4 pt-4 flex items-center justify-between">
+      <p class="text-[12px] text-slate-500"><span id="catQtd" class="font-bold text-[#1E3A5F]">6</span> itens • estoque ERP <span class="text-emerald-600 font-semibold">sincronizado 08:42</span></p>
+    </div>
+
+    <div class="px-4 pt-2 flex gap-2 overflow-x-auto cat-sc">
+      <span class="text-[11px] font-bold text-[#1E3A5F] self-center pr-1">Ordenar:</span>
+      <button onclick="catalogo_de_pneus_ordem(this,'giro')" class="cat-chip cat-chip-on">Mais vendidos</button>
+      <button onclick="catalogo_de_pneus_ordem(this,'menor')" class="cat-chip">Menor preço</button>
+      <button onclick="catalogo_de_pneus_ordem(this,'maior')" class="cat-chip">Maior preço</button>
+      <button onclick="catalogo_de_pneus_ordem(this,'estoque')" class="cat-chip">Estoque</button>
+    </div>
+
+    <div id="catLista" class="px-4 py-4 space-y-3"></div>
+
+    <div id="catVazio" class="hidden px-8 py-10 text-center">
+      <p class="text-3xl">🛞</p>
+      <p class="text-[#1E3A5F] font-bold mt-2 text-sm">Nada encontrado nesse filtro</p>
+      <p class="text-[12px] text-slate-500 mt-1">Ajuste a medida ou limpe os filtros para ver todo o catálogo Skytech.</p>
+      <button onclick="catalogo_de_pneus_limpar();catalogo_de_pneus_aplicar()" class="mt-4 px-5 py-2.5 rounded-xl bg-[#1E3A5F] text-white text-[13px] font-bold">Ver catálogo completo</button>
+    </div>
+
+    <div class="px-4 pb-4">
+      <button onclick="mostrarTela('pedidos-e-clientes')" class="w-full bg-white border border-dashed border-[#2563EB] rounded-xl py-3 text-[13px] font-bold text-[#2563EB]">
+        Ver tabela de preço por cliente
+      </button>
+    </div>
+  </div>
+
+  <div class="fixed bottom-16 left-0 right-0 z-30 px-4 max-w-[430px] mx-auto">
+    <button onclick="mostrarTela('carrinho-e-orcamento')" id="catBarraCarrinho"
+            class="w-full bg-[#2563EB] text-white rounded-xl px-4 py-3 flex items-center justify-between shadow-lg shadow-[#1E3A5F]/25">
+      <span class="text-[13px] font-bold"><span id="catCarrQtd">0</span> itens no orçamento</span>
+      <span class="text-[13px] font-extrabold" id="catCarrTotal">R$ 0,00</span>
+    </button>
+  </div>
+
+  <script>
+    const catalogo_de_pneus_dados = [
+      {cod:'SKY-2758022R', nome:'Pneu Reformado Skytech 275/80R22.5 Borrachão', marca:'Skytech', aro:'Aro 22.5', tipo:'reformado', preco:1189.90, est:184, giro:1, foto:'🛞', bg:'#1E3A5F', desc:'Banda RIB Longa • carcaça classe A'},
+      {cod:'SKY-2951080N', nome:'Pneu Novo Pirelli 295/80R22.5 FR01 Direcional', marca:'Pirelli', aro:'Aro 22.5', tipo:'novo', preco:2340.00, est:36, giro:2, foto:'🛞', bg:'#2563EB', desc:'Liso direcional • rodagem mista'},
+      {cod:'SKY-1000R20R', nome:'Pneu Reformado Skytech 1000R20 Tração', marca:'Skytech', aro:'Aro 20', tipo:'reformado', preco:879.00, est:212, giro:3, foto:'🛞', bg:'#274b73', desc:'Banda tração • borracharia pesada'},
+      {cod:'SRV-VULC-QUE', nome:'Serviço de Vulcanização a Quente (por reparo)', marca:'Skytech', aro:'—', tipo:'servico', preco:145.00, est:null, giro:4, foto:'🔧', bg:'#1E3A5F', desc:'Prensa 30min • garantia 6 meses'},
+      {cod:'INS-COLA-CV5', nome:'Cola Vulcanizante a Frio CV-5 1kg', marca:'Skytech', aro:'—', tipo:'insumo', preco:189.50, est:74, giro:5, foto:'🧴', bg:'#2563EB', desc:'Rende 40 reparos • lote 0824'},
+      {cod:'SKY-2657017N', nome:'Pneu Novo Goodyear 265/70R17 Wrangler', marca:'Goodyear', aro:'Aro 17', tipo:'novo', preco:1465.00, est:8, giro:6, foto:'🛞', bg:'#274b73', desc:'Camionete • uso misto'}
+    ];
+    let catalogo_de_pneus_f = {tipo:'todos', aro:null, marca:null, preco:2500, ordem:'giro', q:''};
+    let catalogo_de_pneus_carrinho = [];
+
+    function catalogo_de_pneus_toggleFiltros(){ document.getElementById('catFiltros').classList.toggle('hidden'); }
+    function catalogo_de_pneus_preco(v){ catalogo_de_pneus_f.preco = +v; document.getElementById('catPrecoVal').textContent = 'R$ '+(+v).toLocaleString('pt-BR'); }
+    function catalogo_de_pneus_tipo(el,t){
+      el.parentNode.querySelectorAll('button').forEach(b=>b.classList.remove('cat-chip-on'));
+      el.classList.add('cat-chip-on'); catalogo_de_pneus_f.tipo=t; catalogo_de_pneus_render();
+    }
+    function catalogo_de_pneus_um(el,campo){
+      const on = el.classList.contains('cat-chip-on');
+      el.parentNode.querySelectorAll('button').forEach(b=>b.classList.remove('cat-chip-on'));
+      if(!on){ el.classList.add('cat-chip-on'); catalogo_de_pneus_f[campo]=el.textContent.trim(); }
+      else { catalogo_de_pneus_f[campo]=null; }
+    }
+    function catalogo_de_pneus_ordem(el,o){
+      el.parentNode.querySelectorAll('button').forEach(b=>b.classList.remove('cat-chip-on'));
+      el.classList.add('cat-chip-on'); catalogo_de_pneus_f.ordem=o; catalogo_de_pneus_render();
+    }
+    function catalogo_de_pneus_buscar(){ catalogo_de_pneus_f.q = document.getElementById('catBusca').value.toLowerCase(); catalogo_de_pneus_render(); }
+    function catalogo_de_pneus_limpar(){
+      catalogo_de_pneus_f = {tipo:catalogo_de_pneus_f.tipo, aro:null, marca:null, preco:2500, ordem:catalogo_de_pneus_f.ordem, q:catalogo_de_pneus_f.q};
+      document.querySelectorAll('#catFiltros .cat-chip').forEach(b=>b.classList.remove('cat-chip-on'));
+      document.querySelector('#catFiltros input[type=range]').value = 2500;
+      document.getElementById('catPrecoVal').textContent='R$ 2.500';
+      catalogo_de_pneus_render();
+    }
+    function catalogo_de_pneus_aplicar(){ document.getElementById('catFiltros').classList.add('hidden'); catalogo_de_pneus_render(); }
+
+    function catalogo_de_pneus_moeda(v){ return v.toLocaleString('pt-BR',{style:'currency',currency:'BRL'}); }
+
+    function catalogo_de_pneus_render(){
+      const f = catalogo_de_pneus_f;
+      let lista = catalogo_de_pneus_dados.filter(p=>
+        (f.tipo==='todos'||p.tipo===f.tipo) &&
+        (!f.aro||p.aro===f.aro) && (!f.marca||p.marca===f.marca) &&
+        p.preco<=f.preco &&
+        (!f.q || (p.nome+p.cod).toLowerCase().includes(f.q))
+      );
+      if(f.ordem==='menor') lista.sort((a,b)=>a.preco-b.preco);
+      if(f.ordem==='maior') lista.sort((a,b)=>b.preco-a.preco);
+      if(f.ordem==='estoque') lista.sort((a,b)=>(b.est||0)-(a.est||0));
+      if(f.ordem==='giro') lista.sort((a,b)=>a.giro-b.giro);
+
+      document.getElementById('catQtd').textContent = lista.length;
+      document.getElementById('catVazio').classList.toggle('hidden', lista.length>0);
+
+      const tagTipo = t => t==='novo' ? '<span class="cat-tag bg-[#2563EB]/10 text-[#2563EB]">NOVO</span>'
+        : t==='reformado' ? '<span class="cat-tag bg-amber-100 text-amber-700">REFORMADO</span>'
+        : t==='servico' ? '<span class="cat-tag bg-[#1E3A5F]/10 text-[#1E3A5F]">SERVIÇO</span>'
+        : '<span class="cat-tag bg-emerald-100 text-emerald-700">INSUMO</span>';
+
+      const estoque = p => p.est===null ? '<span class="text-[11px] text-slate-500">Agenda ERP • 3 vagas hoje</span>'
+        : p.est>20 ? '<span class="text-[11px] text-emerald-600 font-semibold">'+p.est+' un. em estoque</span>'
+        : '<span class="text-[11px] text-red-500 font-semibold">Últimas '+p.est+' un.</span>';
+
+      document.getElementById('catLista').innerHTML = lista.map(p=>`
+        <div class="cat-card">
+          <button onclick="mostrarTela('detalhe-do-produto')" class="w-20 h-20 rounded-lg shrink-0 flex items-center justify-center text-3xl" style="background:${p.bg}">${p.foto}</button>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center gap-1.5 mb-1">${tagTipo(p.tipo)}<span class="text-[10px] text-slate-400 font-mono">${p.cod}</span></div>
+            <button onclick="mostrarTela('detalhe-do-produto')" class="block text-left text-[13px] font-bold text-[#1E3A5F] leading-snug">${p.nome}</button>
+            <p class="text-[11px] text-slate-500 mt-0.5 truncate">${p.desc}</p>
+            <div class="flex items-end justify-between mt-1.5">
+              <div>
+                <p class="text-[15px] font-extrabold text-[#1E3A5F]">${catalogo_de_pneus_moeda(p.preco)}</p>
+                ${estoque(p)}
+              </div>
+              <button onclick="catalogo_de_pneus_add('${p.cod}',this)" class="px-3 py-1.5 rounded-lg bg-[#2563EB] text-white text-[12px] font-bold">+ Orçar</button>
+            </div>
+          </div>
+        </div>`).join('');
+    }
+
+    function catalogo_de_pneus_add(cod,btn){
+      const p = catalogo_de_pneus_dados.find(x=>x.cod===cod);
+      catalogo_de_pneus_carrinho.push(p);
+      btn.textContent = 'Adicionado ✓';
+      btn.classList.remove('bg-[#2563EB]');
+      btn.classList.add('bg-[#1E3A5F]');
+      setTimeout(()=>{ btn.textContent='+ Orçar'; btn.classList.add('bg-[#2563EB]'); btn.classList.remove('bg-[#1E3A5F]'); },1200);
+      const total = catalogo_de_pneus_carrinho.reduce((s,i)=>s+i.preco,0);
+      document.getElementById('catCarrQtd').textContent = catalogo_de_pneus_carrinho.length;
+      document.getElementById('catCarrTotal').textContent = catalogo_de_pneus_moeda(total);
+    }
+
+    catalogo_de_pneus_render();
+  </script>
+</section>
+
     <!-- TELAS -->
   </main>
 
