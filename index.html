@@ -504,6 +504,273 @@
   </script>
 </section>
 
+    <section data-tela="detalhe-do-produto" class="hidden">
+  <style>
+    .dp-chip{border:1px solid #cbd5e1;border-radius:9999px;padding:6px 12px;font-size:12px;font-weight:600;color:#1E3A5F;background:#fff}
+    .dp-chip-on{background:#1E3A5F;border-color:#1E3A5F;color:#fff}
+    .dp-card{background:#fff;border:1px solid #e2e8f0;border-radius:14px}
+    .dp-lbl{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:#64748b;font-weight:700}
+    .dp-row{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px dashed #e2e8f0;font-size:13px}
+  </style>
+
+  <div class="bg-[#F8FAFC] pb-28">
+
+    <div class="px-4 pt-3 flex items-center gap-2 text-[12px] text-slate-500">
+      <button onclick="mostrarTela('catalogo-de-pneus')" class="flex items-center gap-1 font-semibold text-[#1E3A5F]">
+        <svg viewBox="0 0 24 24" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M15 5l-7 7 7 7"/></svg>
+        Catálogo
+      </button>
+      <span>/</span><span>Pneus de Carga</span>
+    </div>
+
+    <div class="mt-2 relative">
+      <div id="dp-galeria" class="h-60 bg-white flex items-center justify-center border-y border-slate-200">
+        <span id="dp-foto-emoji" class="text-[86px] leading-none">🛞</span>
+      </div>
+      <span class="absolute top-3 left-4 bg-[#2563EB] text-white text-[11px] font-bold px-2 py-1 rounded-md">RECAPAGEM SKYTECH</span>
+      <span id="dp-foto-tag" class="absolute bottom-3 right-4 bg-[#1E3A5F]/90 text-white text-[11px] px-2 py-1 rounded-md">Vista frontal</span>
+    </div>
+
+    <div class="px-4 mt-3 flex gap-2 overflow-x-auto">
+      <button onclick="detalhe_do_produto_foto(0,this)" class="dp-thumb w-14 h-14 rounded-lg border-2 border-[#2563EB] bg-white flex items-center justify-center text-2xl shrink-0">🛞</button>
+      <button onclick="detalhe_do_produto_foto(1,this)" class="dp-thumb w-14 h-14 rounded-lg border-2 border-slate-200 bg-white flex items-center justify-center text-2xl shrink-0">🔍</button>
+      <button onclick="detalhe_do_produto_foto(2,this)" class="dp-thumb w-14 h-14 rounded-lg border-2 border-slate-200 bg-white flex items-center justify-center text-2xl shrink-0">📐</button>
+      <button onclick="detalhe_do_produto_foto(3,this)" class="dp-thumb w-14 h-14 rounded-lg border-2 border-slate-200 bg-white flex items-center justify-center text-2xl shrink-0">🚛</button>
+    </div>
+
+    <div class="px-4 mt-4">
+      <h1 class="text-[19px] font-extrabold text-[#1E3A5F] leading-snug">Pneu 295/80 R22.5 Liso Recapado Skytech Rodoviário</h1>
+      <p class="text-[12px] text-slate-500 mt-1">Cód. SKY-29580-LR • Banda MRL 6000 • Garantia 12 meses</p>
+
+      <div class="flex items-center gap-2 mt-2">
+        <span class="text-[13px] text-amber-500">★★★★★</span>
+        <span class="text-[12px] text-slate-500">4,8 · 132 avaliações de frotistas</span>
+      </div>
+
+      <div class="flex items-center gap-2 mt-3">
+        <span class="inline-flex items-center gap-1 bg-emerald-50 text-emerald-700 text-[11px] font-bold px-2 py-1 rounded-md">● Em estoque · 84 un. (CD Cambé/PR)</span>
+      </div>
+    </div>
+
+    <div class="px-4 mt-4">
+      <div class="dp-card p-4">
+        <div class="dp-lbl">Preço por unidade</div>
+        <div class="flex items-end gap-2 mt-1">
+          <span id="dp-preco" class="text-3xl font-extrabold text-[#1E3A5F]">R$ 1.049,00</span>
+          <span class="text-[12px] text-slate-500 mb-1 line-through">R$ 1.180,00</span>
+        </div>
+        <p id="dp-parcela" class="text-[12px] text-slate-600 mt-1">ou 6x de R$ 174,83 sem juros no cartão • PIX com 5% off</p>
+
+        <div class="mt-4 dp-lbl">Faixa por quantidade (atacado)</div>
+        <div class="mt-2 grid grid-cols-3 gap-2">
+          <button onclick="detalhe_do_produto_faixa(4,1049,this)" class="dp-faixa dp-chip dp-chip-on !rounded-lg text-center">4+ un<br><span class="font-extrabold">R$ 1.049</span></button>
+          <button onclick="detalhe_do_produto_faixa(10,998,this)" class="dp-faixa dp-chip !rounded-lg text-center">10+ un<br><span class="font-extrabold">R$ 998</span></button>
+          <button onclick="detalhe_do_produto_faixa(24,949,this)" class="dp-faixa dp-chip !rounded-lg text-center">24+ un<br><span class="font-extrabold">R$ 949</span></button>
+        </div>
+
+        <div class="mt-4 flex items-center justify-between">
+          <span class="dp-lbl">Quantidade</span>
+          <div class="flex items-center gap-3">
+            <button onclick="detalhe_do_produto_qtd(-1)" class="w-9 h-9 rounded-lg border border-slate-300 text-[#1E3A5F] text-lg font-bold">−</button>
+            <span id="dp-qtd" class="w-10 text-center text-lg font-extrabold text-[#1E3A5F]">4</span>
+            <button onclick="detalhe_do_produto_qtd(1)" class="w-9 h-9 rounded-lg border border-slate-300 text-[#1E3A5F] text-lg font-bold">+</button>
+          </div>
+        </div>
+        <div class="mt-3 bg-[#F8FAFC] rounded-lg px-3 py-2 flex justify-between text-sm">
+          <span class="text-slate-600">Subtotal</span>
+          <span id="dp-subtotal" class="font-extrabold text-[#1E3A5F]">R$ 4.196,00</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="px-4 mt-4">
+      <div class="dp-card p-4">
+        <div class="dp-lbl">Serviço adicional</div>
+        <label class="flex items-start gap-3 mt-2 cursor-pointer">
+          <input id="dp-serv" type="checkbox" onchange="detalhe_do_produto_calc()" class="mt-1 w-4 h-4 accent-[#2563EB]">
+          <span class="text-[13px] text-slate-700 leading-snug">
+            <b class="text-[#1E3A5F]">Montagem + balanceamento</b> na borracharia parceira<br>
+            <span class="text-slate-500">R$ 45,00 por pneu · rede credenciada em 320 cidades</span>
+          </span>
+        </label>
+      </div>
+    </div>
+
+    <div class="px-4 mt-4">
+      <div class="flex gap-2 border-b border-slate-200">
+        <button onclick="detalhe_do_produto_aba('esp',this)" class="dp-aba px-3 pb-2 text-[13px] font-bold text-[#2563EB] border-b-2 border-[#2563EB]">Especificações</button>
+        <button onclick="detalhe_do_produto_aba('frete',this)" class="dp-aba px-3 pb-2 text-[13px] font-bold text-slate-500 border-b-2 border-transparent">Frete</button>
+        <button onclick="detalhe_do_produto_aba('fiscal',this)" class="dp-aba px-3 pb-2 text-[13px] font-bold text-slate-500 border-b-2 border-transparent">Fiscal / ERP</button>
+      </div>
+
+      <div id="dp-aba-esp" class="pt-2">
+        <div class="dp-row"><span class="text-slate-500">Medida</span><span class="font-semibold text-[#1E3A5F]">295/80 R22.5</span></div>
+        <div class="dp-row"><span class="text-slate-500">Índice carga / vel.</span><span class="font-semibold text-[#1E3A5F]">152/148 M</span></div>
+        <div class="dp-row"><span class="text-slate-500">Desenho da banda</span><span class="font-semibold text-[#1E3A5F]">Liso rodoviário MRL 6000</span></div>
+        <div class="dp-row"><span class="text-slate-500">Aplicação</span><span class="font-semibold text-[#1E3A5F]">Eixo livre / reboque</span></div>
+        <div class="dp-row"><span class="text-slate-500">Sulco / Peso</span><span class="font-semibold text-[#1E3A5F]">14 mm · 58 kg</span></div>
+        <div class="dp-row border-b-0"><span class="text-slate-500">Certificação</span><span class="font-semibold text-[#1E3A5F]">INMETRO 002415/2024</span></div>
+      </div>
+
+      <div id="dp-aba-frete" class="pt-3 hidden">
+        <div class="dp-card p-4">
+          <div class="dp-lbl">Calcular frete e prazo</div>
+          <div class="flex gap-2 mt-2">
+            <input id="dp-cep" inputmode="numeric" placeholder="00000-000" class="flex-1 border border-slate-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-[#2563EB]">
+            <button onclick="detalhe_do_produto_frete()" class="bg-[#1E3A5F] text-white text-sm font-bold px-4 rounded-lg">Calcular</button>
+          </div>
+          <div id="dp-frete-res" class="hidden mt-3 space-y-2"></div>
+          <p class="text-[11px] text-slate-500 mt-3">Entregamos em todo o Brasil. Pedidos acima de 8 pneus têm frete CIF para capitais.</p>
+        </div>
+      </div>
+
+      <div id="dp-aba-fiscal" class="pt-3 hidden">
+        <div class="dp-card p-4 space-y-2">
+          <div class="dp-row"><span class="text-slate-500">NCM</span><span class="font-semibold text-[#1E3A5F]">4012.12.00</span></div>
+          <div class="dp-row"><span class="text-slate-500">CFOP padrão</span><span class="font-semibold text-[#1E3A5F]">6.102 (fora do estado)</span></div>
+          <div class="dp-row"><span class="text-slate-500">Origem</span><span class="font-semibold text-[#1E3A5F]">0 · Nacional</span></div>
+          <div class="dp-row border-b-0"><span class="text-slate-500">Integração</span><span class="font-semibold text-emerald-700">ERP Skytech · online</span></div>
+          <p class="text-[12px] text-slate-600">A NF-e é emitida automaticamente pelo ERP após a confirmação do pagamento e enviada por WhatsApp e e-mail ao cliente.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="px-4 mt-5">
+      <div class="dp-lbl mb-2">Frotistas também levaram</div>
+      <div class="flex gap-3 overflow-x-auto pb-1">
+        <button onclick="detalhe_do_produto_trocar('Pneu 275/80 R22.5 Borrachudo Recapado Skytech','SKY-27580-BR',979)" class="dp-card w-40 shrink-0 p-3 text-left">
+          <div class="text-3xl">🛞</div>
+          <p class="text-[12px] font-bold text-[#1E3A5F] mt-1 leading-snug">275/80 R22.5 Borrachudo</p>
+          <p class="text-[13px] font-extrabold text-[#2563EB] mt-1">R$ 979,00</p>
+        </button>
+        <button onclick="detalhe_do_produto_trocar('Pneu 1000-20 Liso Recapado Skytech','SKY-1000-20L',865)" class="dp-card w-40 shrink-0 p-3 text-left">
+          <div class="text-3xl">🛞</div>
+          <p class="text-[12px] font-bold text-[#1E3A5F] mt-1 leading-snug">1000-20 Liso 16 lonas</p>
+          <p class="text-[13px] font-extrabold text-[#2563EB] mt-1">R$ 865,00</p>
+        </button>
+        <button onclick="detalhe_do_produto_trocar('Câmara de Ar 1000-20 Reforçada','SKY-CAM-1020',89)" class="dp-card w-40 shrink-0 p-3 text-left">
+          <div class="text-3xl">⭕</div>
+          <p class="text-[12px] font-bold text-[#1E3A5F] mt-1 leading-snug">Câmara 1000-20</p>
+          <p class="text-[13px] font-extrabold text-[#2563EB] mt-1">R$ 89,00</p>
+        </button>
+      </div>
+    </div>
+
+    <div class="px-4 mt-5">
+      <button onclick="mostrarTela('pedidos-e-clientes')" class="w-full dp-card p-3 flex items-center justify-between text-left">
+        <span class="text-[13px] text-slate-700">Vendendo para <b class="text-[#1E3A5F]">Transportes Vale Verde LTDA</b><br><span class="text-[11px] text-slate-500">CNPJ 12.345.678/0001-90 · Londrina/PR</span></span>
+        <span class="text-[#2563EB] text-[12px] font-bold">Trocar</span>
+      </button>
+    </div>
+
+    <div id="dp-toast" class="hidden fixed bottom-28 left-1/2 -translate-x-1/2 z-40 bg-[#1E3A5F] text-white text-[13px] font-semibold px-4 py-2 rounded-full shadow-lg"></div>
+  </div>
+
+  <div class="sticky bottom-0 bg-white border-t border-slate-200 px-4 py-3 flex gap-2">
+    <button onclick="detalhe_do_produto_orcamento()" class="flex-1 border-2 border-[#1E3A5F] text-[#1E3A5F] font-bold text-sm py-3 rounded-xl">Gerar orçamento</button>
+    <button onclick="detalhe_do_produto_carrinho()" class="flex-[1.3] bg-[#2563EB] text-white font-bold text-sm py-3 rounded-xl">Adicionar ao carrinho</button>
+  </div>
+
+  <script>
+    var dp_qtd = 4, dp_preco = 1049, dp_min = 4;
+    function detalhe_do_produto_moeda(v){return 'R$ ' + v.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});}
+    function detalhe_do_produto_calc(){
+      document.getElementById('dp-qtd').textContent = dp_qtd;
+      document.getElementById('dp-preco').textContent = detalhe_do_produto_moeda(dp_preco);
+      var serv = document.getElementById('dp-serv').checked ? 45 : 0;
+      var sub = (dp_preco + serv) * dp_qtd;
+      document.getElementById('dp-subtotal').textContent = detalhe_do_produto_moeda(sub);
+      document.getElementById('dp-parcela').textContent = 'ou 6x de ' + detalhe_do_produto_moeda(dp_preco/6) + ' sem juros • PIX com 5% off';
+    }
+    function detalhe_do_produto_qtd(d){
+      var n = dp_qtd + d;
+      if(n < dp_min) n = dp_min;
+      if(n > 84) { n = 84; detalhe_do_produto_toast('Estoque disponível: 84 un.'); }
+      dp_qtd = n;
+      if(dp_qtd >= 24) detalhe_do_produto_faixaAuto(24);
+      else if(dp_qtd >= 10) detalhe_do_produto_faixaAuto(10);
+      else detalhe_do_produto_faixaAuto(4);
+      detalhe_do_produto_calc();
+    }
+    function detalhe_do_produto_faixaAuto(min){
+      var precos = {4:1049,10:998,24:949}, i = 0;
+      document.querySelectorAll('.dp-faixa').forEach(function(b){
+        var alvo = [4,10,24][i++];
+        b.classList.toggle('dp-chip-on', alvo === min);
+      });
+      dp_preco = precos[min];
+    }
+    function detalhe_do_produto_faixa(min, preco, el){
+      dp_min = 4; dp_preco = preco;
+      if(dp_qtd < min) dp_qtd = min;
+      document.querySelectorAll('.dp-faixa').forEach(function(b){b.classList.remove('dp-chip-on');});
+      el.classList.add('dp-chip-on');
+      detalhe_do_produto_calc();
+    }
+    var dp_fotos = [['🛞','Vista frontal'],['🔍','Detalhe do sulco'],['📐','Medidas e cotas'],['🚛','Aplicação em frota']];
+    function detalhe_do_produto_foto(i, el){
+      document.getElementById('dp-foto-emoji').textContent = dp_fotos[i][0];
+      document.getElementById('dp-foto-tag').textContent = dp_fotos[i][1];
+      document.querySelectorAll('.dp-thumb').forEach(function(b){b.classList.remove('border-[#2563EB]');b.classList.add('border-slate-200');});
+      el.classList.add('border-[#2563EB]'); el.classList.remove('border-slate-200');
+    }
+    function detalhe_do_produto_aba(k, el){
+      ['esp','frete','fiscal'].forEach(function(a){
+        document.getElementById('dp-aba-'+a).classList.toggle('hidden', a !== k);
+      });
+      document.querySelectorAll('.dp-aba').forEach(function(b){
+        b.classList.remove('text-[#2563EB]','border-[#2563EB]');
+        b.classList.add('text-slate-500','border-transparent');
+      });
+      el.classList.add('text-[#2563EB]','border-[#2563EB]');
+      el.classList.remove('text-slate-500','border-transparent');
+    }
+    function detalhe_do_produto_frete(){
+      var cep = (document.getElementById('dp-cep').value || '').replace(/\D/g,'');
+      var box = document.getElementById('dp-frete-res');
+      if(cep.length < 8){ detalhe_do_produto_toast('Informe um CEP com 8 dígitos'); return; }
+      document.getElementById('dp-cep').value = cep.slice(0,5)+'-'+cep.slice(5,8);
+      var uf = cep.charAt(0) === '0' || cep.charAt(0) === '1' ? 'SP' : (cep.charAt(0) === '8' ? 'PR' : 'MG');
+      var gratis = dp_qtd >= 8;
+      box.classList.remove('hidden');
+      box.innerHTML =
+        '<p class="text-[12px] text-slate-500">Entrega em '+uf+' · CEP '+cep.slice(0,5)+'-'+cep.slice(5,8)+'</p>'+
+        '<div class="flex justify-between items-center border border-slate-200 rounded-lg px-3 py-2"><span class="text-[13px] text-[#1E3A5F] font-semibold">Transportadora Skytech<br><span class="text-[11px] font-normal text-slate-500">4 a 6 dias úteis</span></span><span class="text-[13px] font-extrabold '+(gratis?'text-emerald-600':'text-[#1E3A5F]')+'">'+(gratis?'GRÁTIS':'R$ 312,90')+'</span></div>'+
+        '<div class="flex justify-between items-center border border-slate-200 rounded-lg px-3 py-2"><span class="text-[13px] text-[#1E3A5F] font-semibold">Expressa (Braspress)<br><span class="text-[11px] font-normal text-slate-500">2 dias úteis</span></span><span class="text-[13px] font-extrabold text-[#1E3A5F]">R$ 548,00</span></div>'+
+        '<div class="flex justify-between items-center border border-slate-200 rounded-lg px-3 py-2"><span class="text-[13px] text-[#1E3A5F] font-semibold">Retirar no CD Cambé/PR<br><span class="text-[11px] font-normal text-slate-500">Hoje, até 18h</span></span><span class="text-[13px] font-extrabold text-emerald-600">GRÁTIS</span></div>';
+    }
+    function detalhe_do_produto_trocar(nome, cod, preco){
+      document.querySelector('[data-tela="detalhe-do-produto"] h1').textContent = nome;
+      document.querySelector('[data-tela="detalhe-do-produto"] h1').nextElementSibling.textContent = 'Cód. '+cod+' • Banda MRL 6000 • Garantia 12 meses';
+      dp_preco = preco;
+      document.querySelectorAll('.dp-faixa').forEach(function(b,i){
+        var mult = [1,0.95,0.90][i];
+        b.innerHTML = [4,10,24][i]+'+ un<br><span class="font-extrabold">R$ '+Math.round(preco*mult)+'</span>';
+        b.setAttribute('onclick','detalhe_do_produto_faixa('+[4,10,24][i]+','+Math.round(preco*mult)+',this)');
+      });
+      detalhe_do_produto_faixaAuto(4);
+      dp_preco = preco;
+      detalhe_do_produto_calc();
+      window.scrollTo({top:0,behavior:'smooth'});
+      detalhe_do_produto_toast('Produto atualizado');
+    }
+    function detalhe_do_produto_toast(msg){
+      var t = document.getElementById('dp-toast');
+      t.textContent = msg; t.classList.remove('hidden');
+      clearTimeout(window.dp_t); window.dp_t = setTimeout(function(){t.classList.add('hidden');},1800);
+    }
+    function detalhe_do_produto_carrinho(){
+      detalhe_do_produto_toast(dp_qtd + ' un. no carrinho');
+      setTimeout(function(){ mostrarTela('carrinho-e-orcamento'); }, 700);
+    }
+    function detalhe_do_produto_orcamento(){
+      detalhe_do_produto_toast('Orçamento gerado para Vale Verde');
+      setTimeout(function(){ mostrarTela('carrinho-e-orcamento'); }, 700);
+    }
+    detalhe_do_produto_calc();
+  </script>
+</section>
+
     <!-- TELAS -->
   </main>
 
