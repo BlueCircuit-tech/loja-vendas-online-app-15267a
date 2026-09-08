@@ -1279,6 +1279,261 @@
   </script>
 </section>
 
+    <section data-tela="pedidos-e-clientes" class="hidden">
+  <style>
+    .pc-chip{padding:.35rem .75rem;border-radius:999px;font-size:.72rem;font-weight:700;white-space:nowrap;border:1px solid #dbe3ee;background:#fff;color:#1E3A5F}
+    .pc-chip.on{background:#1E3A5F;border-color:#1E3A5F;color:#fff}
+    .pc-card{background:#fff;border:1px solid #e6ebf3;border-radius:14px}
+    .pc-tag{font-size:.65rem;font-weight:800;padding:.2rem .5rem;border-radius:6px;letter-spacing:.02em}
+    .pc-lbl{font-size:.65rem;text-transform:uppercase;letter-spacing:.08em;color:#64748b;font-weight:700}
+  </style>
+
+  <div class="bg-[#F8FAFC] pb-6">
+
+    <div class="px-4 pt-4">
+      <div class="rounded-2xl p-4 text-white" style="background:linear-gradient(135deg,#1E3A5F,#2563EB)">
+        <p class="text-[.65rem] uppercase tracking-widest opacity-80 font-bold">Vendas de outubro</p>
+        <div class="flex items-end gap-2 mt-1">
+          <span class="text-2xl font-black">R$ 184.320,50</span>
+          <span class="text-xs mb-1 bg-white/20 px-2 py-0.5 rounded-full font-bold">+12,4%</span>
+        </div>
+        <div class="grid grid-cols-3 gap-2 mt-3 text-center">
+          <div class="bg-white/10 rounded-lg py-2">
+            <p class="text-lg font-bold leading-none">47</p><p class="text-[.6rem] opacity-80 mt-1">Pedidos</p>
+          </div>
+          <div class="bg-white/10 rounded-lg py-2">
+            <p class="text-lg font-bold leading-none">9</p><p class="text-[.6rem] opacity-80 mt-1">Orçamentos</p>
+          </div>
+          <div class="bg-white/10 rounded-lg py-2">
+            <p class="text-lg font-bold leading-none">1.286</p><p class="text-[.6rem] opacity-80 mt-1">Pneus</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="px-4 mt-4 flex gap-2">
+      <button onclick="pedidos_e_clientes_aba('pedidos')" id="pcAbaPedidos" class="flex-1 py-2.5 rounded-xl text-sm font-bold bg-[#1E3A5F] text-white">Pedidos</button>
+      <button onclick="pedidos_e_clientes_aba('clientes')" id="pcAbaClientes" class="flex-1 py-2.5 rounded-xl text-sm font-bold bg-white text-[#1E3A5F] border border-[#dbe3ee]">Clientes</button>
+    </div>
+
+    <div id="pcPainelPedidos" class="mt-4">
+      <div class="px-4 flex gap-2 overflow-x-auto pb-1" style="scrollbar-width:none">
+        <button class="pc-chip on" data-st="todos" onclick="pedidos_e_clientes_filtrar('todos',this)">Todos · 6</button>
+        <button class="pc-chip" data-st="aguardando" onclick="pedidos_e_clientes_filtrar('aguardando',this)">Aguardando · 2</button>
+        <button class="pc-chip" data-st="pago" onclick="pedidos_e_clientes_filtrar('pago',this)">Pago · 1</button>
+        <button class="pc-chip" data-st="separacao" onclick="pedidos_e_clientes_filtrar('separacao',this)">Em separação · 1</button>
+        <button class="pc-chip" data-st="entregue" onclick="pedidos_e_clientes_filtrar('entregue',this)">Entregue · 2</button>
+      </div>
+
+      <div id="pcLista" class="px-4 mt-3 space-y-2.5"></div>
+
+      <div class="px-4 mt-4">
+        <button onclick="mostrarTela('catalogo-de-pneus')" class="w-full py-3 rounded-xl bg-[#2563EB] text-white text-sm font-bold shadow-lg shadow-[#2563EB]/25">+ Novo pedido pelo catálogo</button>
+      </div>
+    </div>
+
+    <div id="pcPainelClientes" class="mt-4 hidden">
+      <div class="px-4">
+        <input id="pcBuscaCli" oninput="pedidos_e_clientes_buscaCli()" placeholder="Buscar borracharia, CNPJ ou cidade" class="w-full px-3 py-2.5 rounded-xl border border-[#dbe3ee] text-sm bg-white outline-none focus:border-[#2563EB]">
+      </div>
+      <div id="pcListaCli" class="px-4 mt-3 space-y-2.5"></div>
+      <div class="px-4 mt-4 space-y-2">
+        <button onclick="pedidos_e_clientes_novoCliente()" class="w-full py-3 rounded-xl bg-[#1E3A5F] text-white text-sm font-bold">+ Cadastrar novo cliente</button>
+      </div>
+
+      <div id="pcFormCli" class="px-4 mt-3 hidden">
+        <div class="pc-card p-4 space-y-3">
+          <p class="text-sm font-bold text-[#1E3A5F]">Novo cliente (integra ao ERP)</p>
+          <div><p class="pc-lbl mb-1">Razão social</p><input id="pcCliNome" class="w-full px-3 py-2 rounded-lg border border-[#dbe3ee] text-sm outline-none focus:border-[#2563EB]" placeholder="Ex.: Borracharia Pneu Forte ME"></div>
+          <div class="grid grid-cols-2 gap-2">
+            <div><p class="pc-lbl mb-1">CNPJ</p><input id="pcCliDoc" class="w-full px-3 py-2 rounded-lg border border-[#dbe3ee] text-sm outline-none focus:border-[#2563EB]" placeholder="00.000.000/0001-00"></div>
+            <div><p class="pc-lbl mb-1">Cidade / UF</p><input id="pcCliCid" class="w-full px-3 py-2 rounded-lg border border-[#dbe3ee] text-sm outline-none focus:border-[#2563EB]" placeholder="Uberlândia / MG"></div>
+          </div>
+          <div>
+            <p class="pc-lbl mb-1">Tabela de preço</p>
+            <select id="pcCliTab" class="w-full px-3 py-2 rounded-lg border border-[#dbe3ee] text-sm bg-white outline-none focus:border-[#2563EB]">
+              <option>Revenda A — borracharia</option>
+              <option>Revenda B — reformadora</option>
+              <option>Frotista</option>
+            </select>
+          </div>
+          <div class="flex gap-2">
+            <button onclick="pedidos_e_clientes_salvarCliente()" class="flex-1 py-2.5 rounded-xl bg-[#2563EB] text-white text-sm font-bold">Salvar cliente</button>
+            <button onclick="pedidos_e_clientes_novoCliente()" class="px-4 py-2.5 rounded-xl border border-[#dbe3ee] text-sm font-bold text-[#1E3A5F]">Cancelar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="pcDetalhe" class="hidden fixed inset-0 z-40 bg-[#0f1b2d]/60 flex items-end justify-center">
+      <div class="w-full max-w-[430px] bg-[#F8FAFC] rounded-t-2xl max-h-[88%] overflow-y-auto">
+        <div class="sticky top-0 bg-white px-4 py-3 border-b border-[#e6ebf3] flex items-center justify-between">
+          <div>
+            <p id="pcDetNum" class="text-sm font-black text-[#1E3A5F]">#0000</p>
+            <p id="pcDetCli" class="text-xs text-slate-500">Cliente</p>
+          </div>
+          <button onclick="pedidos_e_clientes_fechar()" class="w-8 h-8 rounded-full bg-[#F8FAFC] text-[#1E3A5F] font-bold">✕</button>
+        </div>
+        <div id="pcDetCorpo" class="p-4 space-y-3"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const pcPedidos = [
+      {n:'#4821', cli:'Borracharia Estrada Real', cid:'Betim / MG', val:'R$ 8.740,00', st:'separacao', itens:'12× Pneu 275/80 R22,5 Recap SkyTech', data:'23/10 · 09:14', nf:'NF-e 018.442 autorizada', pg:'PIX confirmado', tipo:'Pedido'},
+      {n:'#4820', cli:'Reformadora Pneus do Vale', cid:'Cascavel / PR', val:'R$ 23.190,00', st:'pago', itens:'40× Banda de rodagem 220mm + 6× Cola vulcanizante', data:'23/10 · 08:02', nf:'NF-e 018.441 autorizada', pg:'Boleto pago 22/10', tipo:'Pedido'},
+      {n:'#4819', cli:'Auto Center Nunes', cid:'Ribeirão Preto / SP', val:'R$ 3.480,50', st:'aguardando', itens:'4× Pneu 205/55 R16 + montagem', data:'22/10 · 17:40', nf:'NF-e pendente de pagamento', pg:'Aguardando PIX', tipo:'Pedido'},
+      {n:'ORC #712', cli:'Transportes Kaminski', cid:'Chapecó / SC', val:'R$ 61.400,00', st:'aguardando', itens:'80× Pneu 295/80 R22,5 borrachudo', data:'22/10 · 14:11', nf:'Orçamento válido até 29/10', pg:'Aguardando aprovação do cliente', tipo:'Orçamento'},
+      {n:'#4817', cli:'Borracharia 24h Tiradentes', cid:'Feira de Santana / BA', val:'R$ 5.960,00', st:'entregue', itens:'10× Pneu 175/70 R14 + 2× Câmara de ar', data:'19/10 · 10:25', nf:'NF-e 018.436 autorizada', pg:'Cartão 3× aprovado', tipo:'Pedido'},
+      {n:'#4815', cli:'Pneus Guarapari Ltda', cid:'Guarapari / ES', val:'R$ 14.220,00', st:'entregue', itens:'24× Pneu 1000-20 Reformado Premium', data:'17/10 · 15:58', nf:'NF-e 018.430 autorizada', pg:'PIX confirmado', tipo:'Pedido'}
+    ];
+    const pcRotulos = {aguardando:['Aguardando','bg-amber-100 text-amber-800'],pago:['Pago','bg-blue-100 text-[#1E3A5F]'],separacao:['Em separação','bg-indigo-100 text-indigo-800'],entregue:['Entregue','bg-emerald-100 text-emerald-800']};
+    const pcTimeline = {
+      aguardando:[['Pedido registrado no app',1],['Enviado ao ERP SkyTech',1],['Pagamento confirmado',0],['Separação no CD Uberlândia',0],['Entrega',0]],
+      pago:[['Pedido registrado no app',1],['Enviado ao ERP SkyTech',1],['Pagamento confirmado',1],['Separação no CD Uberlândia',0],['Entrega',0]],
+      separacao:[['Pedido registrado no app',1],['Enviado ao ERP SkyTech',1],['Pagamento confirmado',1],['Separação no CD Uberlândia',1],['Entrega',0]],
+      entregue:[['Pedido registrado no app',1],['Enviado ao ERP SkyTech',1],['Pagamento confirmado',1],['Separação no CD Uberlândia',1],['Entrega realizada',1]]
+    };
+    let pcClientes = [
+      {nome:'Borracharia Estrada Real', doc:'12.884.310/0001-77', cid:'Betim / MG', tab:'Revenda A — borracharia', total:'R$ 42.180,00', ped:11, ult:'23/10/2025'},
+      {nome:'Reformadora Pneus do Vale', doc:'08.551.902/0001-14', cid:'Cascavel / PR', tab:'Revenda B — reformadora', total:'R$ 128.640,00', ped:26, ult:'23/10/2025'},
+      {nome:'Transportes Kaminski', doc:'21.470.665/0001-08', cid:'Chapecó / SC', tab:'Frotista', total:'R$ 310.900,00', ped:38, ult:'22/10/2025'},
+      {nome:'Auto Center Nunes', doc:'33.209.118/0001-52', cid:'Ribeirão Preto / SP', tab:'Revenda A — borracharia', total:'R$ 19.755,00', ped:7, ult:'22/10/2025'}
+    ];
+    let pcFiltro = 'todos';
+
+    function pedidos_e_clientes_aba(a){
+      const p=document.getElementById('pcAbaPedidos'), c=document.getElementById('pcAbaClientes');
+      const on='flex-1 py-2.5 rounded-xl text-sm font-bold bg-[#1E3A5F] text-white';
+      const off='flex-1 py-2.5 rounded-xl text-sm font-bold bg-white text-[#1E3A5F] border border-[#dbe3ee]';
+      const ped=a==='pedidos';
+      p.className=ped?on:off; c.className=ped?off:on;
+      document.getElementById('pcPainelPedidos').classList.toggle('hidden',!ped);
+      document.getElementById('pcPainelClientes').classList.toggle('hidden',ped);
+    }
+
+    function pedidos_e_clientes_filtrar(st,el){
+      pcFiltro=st;
+      el.parentElement.querySelectorAll('.pc-chip').forEach(b=>b.classList.remove('on'));
+      el.classList.add('on');
+      pedidos_e_clientes_render();
+    }
+
+    function pedidos_e_clientes_render(){
+      const alvo=document.getElementById('pcLista');
+      const lista=pcPedidos.filter(p=>pcFiltro==='todos'||p.st===pcFiltro);
+      if(!lista.length){alvo.innerHTML='<p class="text-center text-sm text-slate-500 py-6">Nenhum pedido neste status.</p>';return;}
+      alvo.innerHTML=lista.map((p,i)=>{
+        const r=pcRotulos[p.st];
+        return `<button onclick="pedidos_e_clientes_abrir('${p.n}')" class="pc-card w-full text-left p-3 active:bg-slate-50">
+          <div class="flex items-start justify-between gap-2">
+            <div class="min-w-0">
+              <p class="text-[.68rem] font-bold text-[#2563EB]">${p.tipo} ${p.n}</p>
+              <p class="text-sm font-bold text-[#1E3A5F] truncate">${p.cli}</p>
+              <p class="text-[.7rem] text-slate-500">${p.cid} · ${p.data}</p>
+            </div>
+            <span class="pc-tag ${r[1]}">${r[0]}</span>
+          </div>
+          <div class="flex items-center justify-between mt-2 pt-2 border-t border-dashed border-[#e6ebf3]">
+            <span class="text-[.7rem] text-slate-500 truncate pr-2">${p.itens}</span>
+            <span class="text-sm font-black text-[#1E3A5F] whitespace-nowrap">${p.val}</span>
+          </div>
+        </button>`;
+      }).join('');
+    }
+
+    function pedidos_e_clientes_abrir(num){
+      const p=pcPedidos.find(x=>x.n===num); if(!p)return;
+      document.getElementById('pcDetNum').textContent=p.tipo+' '+p.n;
+      document.getElementById('pcDetCli').textContent=p.cli+' · '+p.cid;
+      const r=pcRotulos[p.st];
+      const tl=pcTimeline[p.st].map(([t,ok])=>`<li class="flex gap-3 items-start">
+        <span class="mt-1 w-2.5 h-2.5 rounded-full ${ok?'bg-[#2563EB]':'bg-slate-300'} shrink-0"></span>
+        <span class="text-xs ${ok?'text-[#1E3A5F] font-semibold':'text-slate-400'}">${t}</span></li>`).join('');
+      document.getElementById('pcDetCorpo').innerHTML=`
+        <div class="pc-card p-3 flex items-center justify-between">
+          <div><p class="pc-lbl">Total</p><p class="text-lg font-black text-[#1E3A5F]">${p.val}</p></div>
+          <span class="pc-tag ${r[1]}">${r[0]}</span>
+        </div>
+        <div class="pc-card p-3">
+          <p class="pc-lbl mb-2">Itens</p>
+          <p class="text-sm text-slate-700">${p.itens}</p>
+          <p class="text-xs text-slate-500 mt-2">Pagamento: ${p.pg}</p>
+        </div>
+        <div class="pc-card p-3">
+          <p class="pc-lbl mb-2">Timeline</p>
+          <ul class="space-y-2">${tl}</ul>
+        </div>
+        <div class="pc-card p-3 flex items-center gap-3">
+          <span class="text-xl">🧾</span>
+          <div class="min-w-0"><p class="text-sm font-bold text-[#1E3A5F]">${p.nf}</p><p class="text-[.7rem] text-slate-500">Emissão pelo ERP SkyTech</p></div>
+        </div>
+        <div class="space-y-2 pt-1">
+          <button onclick="pedidos_e_clientes_avancar('${p.n}')" class="w-full py-3 rounded-xl bg-[#1E3A5F] text-white text-sm font-bold">Avançar status e avisar no WhatsApp</button>
+          <button onclick="pedidos_e_clientes_fechar();mostrarTela('pagamento-e-nf-e')" class="w-full py-3 rounded-xl bg-[#2563EB] text-white text-sm font-bold">Ver pagamento e NF-e</button>
+          <button onclick="pedidos_e_clientes_fechar();mostrarTela('carrinho-e-orcamento')" class="w-full py-3 rounded-xl border border-[#dbe3ee] bg-white text-[#1E3A5F] text-sm font-bold">Repetir como novo orçamento</button>
+        </div>
+        <p id="pcAviso" class="hidden text-xs text-center font-bold text-emerald-700 bg-emerald-50 rounded-lg py-2">Status atualizado · WhatsApp enviado ao cliente</p>`;
+      document.getElementById('pcDetalhe').classList.remove('hidden');
+    }
+
+    function pedidos_e_clientes_avancar(num){
+      const p=pcPedidos.find(x=>x.n===num); if(!p)return;
+      const ordem=['aguardando','pago','separacao','entregue'];
+      const i=ordem.indexOf(p.st);
+      if(i<ordem.length-1){p.st=ordem[i+1];}
+      pedidos_e_clientes_abrir(num);
+      const av=document.getElementById('pcAviso'); if(av)av.classList.remove('hidden');
+      pedidos_e_clientes_render();
+    }
+
+    function pedidos_e_clientes_fechar(){document.getElementById('pcDetalhe').classList.add('hidden');}
+
+    function pedidos_e_clientes_renderCli(f){
+      const t=(f||'').toLowerCase();
+      const lista=pcClientes.filter(c=>!t||c.nome.toLowerCase().includes(t)||c.doc.includes(t)||c.cid.toLowerCase().includes(t));
+      document.getElementById('pcListaCli').innerHTML=lista.length?lista.map((c,i)=>`
+        <div class="pc-card overflow-hidden">
+          <button onclick="pedidos_e_clientes_toggleCli(${i})" class="w-full text-left p-3 flex items-center gap-3">
+            <span class="w-9 h-9 rounded-lg bg-[#1E3A5F] text-white text-xs font-black grid place-items-center shrink-0">${c.nome.substring(0,2).toUpperCase()}</span>
+            <span class="min-w-0 flex-1">
+              <span class="block text-sm font-bold text-[#1E3A5F] truncate">${c.nome}</span>
+              <span class="block text-[.7rem] text-slate-500">${c.cid} · ${c.ped} pedidos</span>
+            </span>
+            <span class="text-[#2563EB] text-xs font-bold">▾</span>
+          </button>
+          <div id="pcCli${i}" class="hidden px-3 pb-3 border-t border-dashed border-[#e6ebf3] pt-3 space-y-2">
+            <div class="grid grid-cols-2 gap-2">
+              <div><p class="pc-lbl">CNPJ</p><p class="text-xs font-semibold text-slate-700">${c.doc}</p></div>
+              <div><p class="pc-lbl">Tabela</p><p class="text-xs font-semibold text-slate-700">${c.tab}</p></div>
+              <div><p class="pc-lbl">Total comprado</p><p class="text-xs font-black text-[#1E3A5F]">${c.total}</p></div>
+              <div><p class="pc-lbl">Último pedido</p><p class="text-xs font-semibold text-slate-700">${c.ult}</p></div>
+            </div>
+            <button onclick="mostrarTela('catalogo-de-pneus')" class="w-full py-2.5 rounded-lg bg-[#2563EB] text-white text-xs font-bold">Novo pedido para este cliente</button>
+          </div>
+        </div>`).join(''):'<p class="text-center text-sm text-slate-500 py-6">Nenhum cliente encontrado.</p>';
+    }
+
+    function pedidos_e_clientes_toggleCli(i){
+      const el=document.getElementById('pcCli'+i); if(el)el.classList.toggle('hidden');
+    }
+    function pedidos_e_clientes_buscaCli(){pedidos_e_clientes_renderCli(document.getElementById('pcBuscaCli').value);}
+    function pedidos_e_clientes_novoCliente(){document.getElementById('pcFormCli').classList.toggle('hidden');}
+    function pedidos_e_clientes_salvarCliente(){
+      const n=document.getElementById('pcCliNome').value.trim()||'Cliente sem nome informado';
+      pcClientes.unshift({nome:n,doc:document.getElementById('pcCliDoc').value.trim()||'A confirmar',cid:document.getElementById('pcCliCid').value.trim()||'—',tab:document.getElementById('pcCliTab').value,total:'R$ 0,00',ped:0,ult:'—'});
+      document.getElementById('pcCliNome').value='';document.getElementById('pcCliDoc').value='';document.getElementById('pcCliCid').value='';
+      document.getElementById('pcFormCli').classList.add('hidden');
+      document.getElementById('pcBuscaCli').value='';
+      pedidos_e_clientes_renderCli('');
+    }
+
+    pedidos_e_clientes_render();
+    pedidos_e_clientes_renderCli('');
+  </script>
+</section>
+
     <!-- TELAS -->
   </main>
 
